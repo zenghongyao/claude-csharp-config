@@ -1,4 +1,4 @@
-# Claude ä¸ Codex å…¨å±€è§„åˆ™å¸è½½å™¨ï¼ˆWindows PowerShellï¼‰
+# Claude Óë Codex È«¾Ö¹æÔòĞ¶ÔØÆ÷£¨Windows PowerShell£©
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
@@ -16,16 +16,16 @@ function Write-Err2 { param([string]$Message) Write-Host "[ERROR] $Message" -For
 
 function Show-Help {
     @'
-ç”¨æ³•ï¼š.\uninstall.ps1 [-Target Claude|Codex|All] [-Purge] [-WhatIf] [-Help]
+ÓÃ·¨£º.\uninstall.ps1 [-Target Claude|Codex|All] [-Purge] [-WhatIf] [-Help]
 
-é€‰é¡¹ï¼š
-  -Target    å¸è½½ç›®æ ‡ã€‚æœªæŒ‡å®šæ—¶åœ¨äº¤äº’å¼ç»ˆç«¯ä¸­é€‰æ‹©ã€‚
-  -Purge     åˆ é™¤æœ¬åŒ…å…¥å£ã€rules å’Œå¯¹åº”å¤‡ä»½ï¼Œä¸æ¢å¤æ—§é…ç½®ã€‚
-  -WhatIf    é¢„è§ˆæ“ä½œï¼Œä¸ä¿®æ”¹æ–‡ä»¶ã€‚
-  -Help      æ˜¾ç¤ºæœ¬å¸®åŠ©ã€‚
+Ñ¡Ïî£º
+  -Target    Ğ¶ÔØÄ¿±ê¡£Î´Ö¸¶¨Ê±ÔÚ½»»¥Ê½ÖÕ¶ËÖĞÑ¡Ôñ¡£
+  -Purge     É¾³ı±¾°üÈë¿Ú¡¢rules ºÍ¶ÔÓ¦±¸·İ£¬²»»Ö¸´¾ÉÅäÖÃ¡£
+  -WhatIf    Ô¤ÀÀ²Ù×÷£¬²»ĞŞ¸ÄÎÄ¼ş¡£
+  -Help      ÏÔÊ¾±¾°ïÖú¡£
 
-é»˜è®¤è¡Œä¸ºæ¢å¤æœ€è¿‘å¤‡ä»½ï¼›æ²¡æœ‰å¤‡ä»½æ—¶åªåˆ é™¤æœ¬åŒ…å®‰è£…çš„å…¥å£ä¸ rulesã€‚
-éäº¤äº’ç¯å¢ƒå¿…é¡»æŒ‡å®š -Targetã€‚
+Ä¬ÈÏĞĞÎª»Ö¸´×î½ü±¸·İ£»Ã»ÓĞ±¸·İÊ±Ö»É¾³ı±¾°ü°²×°µÄÈë¿ÚÓë rules¡£
+·Ç½»»¥»·¾³±ØĞëÖ¸¶¨ -Target¡£
 '@
 }
 
@@ -33,18 +33,18 @@ function Resolve-Target {
     param([string]$SelectedTarget)
     if ($SelectedTarget) { return $SelectedTarget }
     if ([Console]::IsInputRedirected) {
-        throw 'éäº¤äº’ç¯å¢ƒå¿…é¡»é€šè¿‡ -Target æŒ‡å®š Claudeã€Codex æˆ– Allã€‚'
+        throw '·Ç½»»¥»·¾³±ØĞëÍ¨¹ı -Target Ö¸¶¨ Claude¡¢Codex »ò All¡£'
     }
-    Write-Host 'è¯·é€‰æ‹©å¸è½½ç›®æ ‡ï¼š'
+    Write-Host 'ÇëÑ¡ÔñĞ¶ÔØÄ¿±ê£º'
     Write-Host '  1. Claude'
     Write-Host '  2. Codex'
-    Write-Host '  3. Claude å’Œ Codex'
-    $choice = Read-Host 'è¾“å…¥ 1ã€2 æˆ– 3'
+    Write-Host '  3. Claude ºÍ Codex'
+    $choice = Read-Host 'ÊäÈë 1¡¢2 »ò 3'
     switch ($choice) {
         '1' { return 'Claude' }
         '2' { return 'Codex' }
         '3' { return 'All' }
-        default { throw 'æ— æ•ˆé€‰æ‹©ï¼Œè¯·é‡æ–°æ‰§è¡Œå¹¶è¾“å…¥ 1ã€2 æˆ– 3ã€‚' }
+        default { throw 'ÎŞĞ§Ñ¡Ôñ£¬ÇëÖØĞÂÖ´ĞĞ²¢ÊäÈë 1¡¢2 »ò 3¡£' }
     }
 }
 
@@ -59,7 +59,7 @@ function Get-TargetSpec {
     switch ($Name) {
         'Claude' { return [pscustomobject]@{ Name = 'Claude'; Root = Join-Path $env:USERPROFILE '.claude'; Entry = 'CLAUDE.md' } }
         'Codex' { return [pscustomobject]@{ Name = 'Codex'; Root = Join-Path $env:USERPROFILE '.codex'; Entry = 'AGENTS.md' } }
-        default { throw "æœªçŸ¥ç›®æ ‡ï¼š$Name" }
+        default { throw "Î´ÖªÄ¿±ê£º$Name" }
     }
 }
 
@@ -67,8 +67,8 @@ function Remove-Path {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param([string]$Path)
     if (Test-Path -LiteralPath $Path) {
-        Write-Info "åˆ é™¤ï¼š$Path"
-        if ($PSCmdlet.ShouldProcess($Path, 'åˆ é™¤')) {
+        Write-Info "É¾³ı£º$Path"
+        if ($PSCmdlet.ShouldProcess($Path, 'É¾³ı')) {
             Remove-Item -LiteralPath $Path -Recurse -Force
         }
     }
@@ -83,8 +83,8 @@ function Restore-LatestBackup {
         Select-Object -First 1
     if ($null -eq $latest) { return $false }
 
-    Write-Info "æ¢å¤å¤‡ä»½ï¼š$($latest.FullName) -> $TargetPath"
-    if ($PSCmdlet.ShouldProcess($TargetPath, 'åˆ é™¤ç°æœ‰å†…å®¹å¹¶æ¢å¤å¤‡ä»½')) {
+    Write-Info "»Ö¸´±¸·İ£º$($latest.FullName) -> $TargetPath"
+    if ($PSCmdlet.ShouldProcess($TargetPath, 'É¾³ıÏÖÓĞÄÚÈİ²¢»Ö¸´±¸·İ')) {
         if (Test-Path -LiteralPath $TargetPath) {
             Remove-Item -LiteralPath $TargetPath -Recurse -Force
         }
@@ -97,8 +97,8 @@ function Remove-AllBackups {
     [CmdletBinding(SupportsShouldProcess = $true)]
     param([string]$TargetPath)
     Get-ChildItem -Path "$TargetPath.bak.*" -ErrorAction SilentlyContinue | ForEach-Object {
-        Write-Info "æ¸…ç†å¤‡ä»½ï¼š$($_.FullName)"
-        if ($PSCmdlet.ShouldProcess($_.FullName, 'åˆ é™¤å¤‡ä»½')) {
+        Write-Info "ÇåÀí±¸·İ£º$($_.FullName)"
+        if ($PSCmdlet.ShouldProcess($_.FullName, 'É¾³ı±¸·İ')) {
             Remove-Item -LiteralPath $_.FullName -Recurse -Force
         }
     }
@@ -111,9 +111,9 @@ function Uninstall-Target {
     $rulesPath = Join-Path $spec.Root 'rules'
 
     Write-Host
-    Write-Host "å¸è½½ç›®æ ‡ï¼š$($spec.Name)"
+    Write-Host "Ğ¶ÔØÄ¿±ê£º$($spec.Name)"
     if (-not (Test-Path -LiteralPath $spec.Root -PathType Container)) {
-        Write-Warn2 "ç›®æ ‡ç›®å½•ä¸å­˜åœ¨ï¼š$($spec.Root)ï¼Œæ— éœ€å¸è½½ã€‚"
+        Write-Warn2 "Ä¿±êÄ¿Â¼²»´æÔÚ£º$($spec.Root)£¬ÎŞĞèĞ¶ÔØ¡£"
         return
     }
 
@@ -151,28 +151,28 @@ try {
     exit 1
 }
 
-Write-Host 'Claude ä¸ Codex å…¨å±€è§„åˆ™å¸è½½å™¨'
-Write-Host "  ç›®æ ‡ï¼š$resolvedTarget"
-if ($Purge) { Write-Host '  æ¨¡å¼ï¼šå®Œå…¨åˆ é™¤ï¼ˆå«å¤‡ä»½ï¼‰' }
-if ($WhatIfPreference) { Write-Host '  æ¨¡å¼ï¼šå¹²è·‘ï¼ˆ-WhatIfï¼‰' }
+Write-Host 'Claude Óë Codex È«¾Ö¹æÔòĞ¶ÔØÆ÷'
+Write-Host "  Ä¿±ê£º$resolvedTarget"
+if ($Purge) { Write-Host '  Ä£Ê½£ºÍêÈ«É¾³ı£¨º¬±¸·İ£©' }
+if ($WhatIfPreference) { Write-Host '  Ä£Ê½£º¸ÉÅÜ£¨-WhatIf£©' }
 
 $failures = @()
 foreach ($name in Get-TargetNames -SelectedTarget $resolvedTarget) {
     try {
         Uninstall-Target -Name $name
     } catch {
-        Write-Err2 "$name å¸è½½å¤±è´¥ï¼š$($_.Exception.Message)"
+        Write-Err2 "$name Ğ¶ÔØÊ§°Ü£º$($_.Exception.Message)"
         $failures += $name
     }
 }
 
 Write-Host
 if ($failures.Count -gt 0) {
-    Write-Err2 "å¸è½½æœªå®Œå…¨æˆåŠŸï¼Œå¤±è´¥ç›®æ ‡ï¼š$($failures -join 'ã€')"
+    Write-Err2 "Ğ¶ÔØÎ´ÍêÈ«³É¹¦£¬Ê§°ÜÄ¿±ê£º$($failures -join '¡¢')"
     exit 1
 }
 
-Write-Info 'å¸è½½å®Œæˆã€‚'
+Write-Info 'Ğ¶ÔØÍê³É¡£'
 if ($WhatIfPreference) {
-    Write-Warn2 'æœ¬æ¬¡ä¸ºå¹²è·‘æ¨¡å¼ï¼Œæœªå®é™…ä¿®æ”¹æ–‡ä»¶ã€‚'
+    Write-Warn2 '±¾´ÎÎª¸ÉÅÜÄ£Ê½£¬Î´Êµ¼ÊĞŞ¸ÄÎÄ¼ş¡£'
 }

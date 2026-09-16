@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude ä¸ Codex å…¨å±€è§„åˆ™å¸è½½å™¨ï¼ˆmacOS / Linuxï¼‰
+# Claude Óë Codex È«¾Ö¹æÔòĞ¶ÔØÆ÷£¨macOS / Linux£©
 
 set -euo pipefail
 
@@ -22,23 +22,23 @@ log_error() { printf '%b[ERROR]%b %s\n' "$C_RED" "$C_RESET" "$1" >&2; }
 
 show_help() {
     cat <<EOF
-ç”¨æ³•ï¼š./uninstall.sh [--target claude|codex|all] [--purge] [--dry-run]
+ÓÃ·¨£º./uninstall.sh [--target claude|codex|all] [--purge] [--dry-run]
 
-é€‰é¡¹ï¼š
-  --target    å¸è½½ç›®æ ‡ã€‚æœªæŒ‡å®šæ—¶åœ¨äº¤äº’å¼ç»ˆç«¯ä¸­é€‰æ‹©ã€‚
-  --purge     åˆ é™¤æœ¬åŒ…å…¥å£ã€rules å’Œå¯¹åº”å¤‡ä»½ï¼Œä¸æ¢å¤æ—§é…ç½®ã€‚
-  --dry-run   é¢„è§ˆæ“ä½œï¼Œä¸ä¿®æ”¹æ–‡ä»¶ã€‚
-  -h, --help  æ˜¾ç¤ºæœ¬å¸®åŠ©ã€‚
+Ñ¡Ïî£º
+  --target    Ğ¶ÔØÄ¿±ê¡£Î´Ö¸¶¨Ê±ÔÚ½»»¥Ê½ÖÕ¶ËÖĞÑ¡Ôñ¡£
+  --purge     É¾³ı±¾°üÈë¿Ú¡¢rules ºÍ¶ÔÓ¦±¸·İ£¬²»»Ö¸´¾ÉÅäÖÃ¡£
+  --dry-run   Ô¤ÀÀ²Ù×÷£¬²»ĞŞ¸ÄÎÄ¼ş¡£
+  -h, --help  ÏÔÊ¾±¾°ïÖú¡£
 
-é»˜è®¤è¡Œä¸ºæ¢å¤æœ€è¿‘å¤‡ä»½ï¼›æ²¡æœ‰å¤‡ä»½æ—¶åªåˆ é™¤æœ¬åŒ…å®‰è£…çš„å…¥å£ä¸ rulesã€‚
-éäº¤äº’ç¯å¢ƒå¿…é¡»æŒ‡å®š --targetã€‚
+Ä¬ÈÏĞĞÎª»Ö¸´×î½ü±¸·İ£»Ã»ÓĞ±¸·İÊ±Ö»É¾³ı±¾°ü°²×°µÄÈë¿ÚÓë rules¡£
+·Ç½»»¥»·¾³±ØĞëÖ¸¶¨ --target¡£
 EOF
 }
 
 while (($# > 0)); do
     case "$1" in
         --target)
-            [[ $# -ge 2 ]] || { log_error "--target ç¼ºå°‘å‚æ•°"; exit 1; }
+            [[ $# -ge 2 ]] || { log_error "--target È±ÉÙ²ÎÊı"; exit 1; }
             TARGET="$2"
             shift 2
             ;;
@@ -55,7 +55,7 @@ while (($# > 0)); do
             exit 0
             ;;
         *)
-            log_error "æœªçŸ¥å‚æ•°ï¼š$1"
+            log_error "Î´Öª²ÎÊı£º$1"
             show_help
             exit 1
             ;;
@@ -67,26 +67,26 @@ resolve_target() {
         return
     fi
     if [[ ! -t 0 ]]; then
-        log_error "éäº¤äº’ç¯å¢ƒå¿…é¡»é€šè¿‡ --target æŒ‡å®š claudeã€codex æˆ– allã€‚"
+        log_error "·Ç½»»¥»·¾³±ØĞëÍ¨¹ı --target Ö¸¶¨ claude¡¢codex »ò all¡£"
         exit 1
     fi
-    echo "è¯·é€‰æ‹©å¸è½½ç›®æ ‡ï¼š"
+    echo "ÇëÑ¡ÔñĞ¶ÔØÄ¿±ê£º"
     echo "  1. Claude"
     echo "  2. Codex"
-    echo "  3. Claude å’Œ Codex"
-    read -r -p "è¾“å…¥ 1ã€2 æˆ– 3: " choice
+    echo "  3. Claude ºÍ Codex"
+    read -r -p "ÊäÈë 1¡¢2 »ò 3: " choice
     case "$choice" in
         1) TARGET="claude" ;;
         2) TARGET="codex" ;;
         3) TARGET="all" ;;
-        *) log_error "æ— æ•ˆé€‰æ‹©ï¼Œè¯·é‡æ–°æ‰§è¡Œå¹¶è¾“å…¥ 1ã€2 æˆ– 3ã€‚"; exit 1 ;;
+        *) log_error "ÎŞĞ§Ñ¡Ôñ£¬ÇëÖØĞÂÖ´ĞĞ²¢ÊäÈë 1¡¢2 »ò 3¡£"; exit 1 ;;
     esac
 }
 
 validate_target() {
     case "$TARGET" in
         claude|codex|all) ;;
-        *) log_error "--target åªèƒ½æ˜¯ claudeã€codex æˆ– allã€‚"; exit 1 ;;
+        *) log_error "--target Ö»ÄÜÊÇ claude¡¢codex »ò all¡£"; exit 1 ;;
     esac
 }
 
@@ -103,7 +103,7 @@ run_cmd() {
 remove_path() {
     local path="$1"
     if [[ -e "$path" ]]; then
-        log_info "åˆ é™¤ï¼š$path"
+        log_info "É¾³ı£º$path"
         run_cmd rm -rf "$path" || return 1
     fi
 }
@@ -117,7 +117,7 @@ restore_latest_backup() {
     if [[ -z "$latest" ]]; then
         return 1
     fi
-    log_info "æ¢å¤å¤‡ä»½ï¼š$latest -> $target_path"
+    log_info "»Ö¸´±¸·İ£º$latest -> $target_path"
     if [[ -e "$target_path" ]]; then
         run_cmd rm -rf "$target_path" || return 1
     fi
@@ -131,7 +131,7 @@ remove_all_backups() {
     base="$(basename "$target_path")"
     while IFS= read -r backup; do
         [[ -n "$backup" ]] || continue
-        log_info "æ¸…ç†å¤‡ä»½ï¼š$backup"
+        log_info "ÇåÀí±¸·İ£º$backup"
         run_cmd rm -rf "$backup" || return 1
     done < <(find "$directory" -maxdepth 1 -name "$base.bak.*" -print 2>/dev/null)
 }
@@ -142,15 +142,15 @@ uninstall_target() {
     case "$name" in
         claude) root="$HOME/.claude"; entry="CLAUDE.md" ;;
         codex) root="$HOME/.codex"; entry="AGENTS.md" ;;
-        *) log_error "æœªçŸ¥ç›®æ ‡ï¼š$name"; return 1 ;;
+        *) log_error "Î´ÖªÄ¿±ê£º$name"; return 1 ;;
     esac
     entry_path="$root/$entry"
     rules_path="$root/rules"
 
     echo
-    echo "å¸è½½ç›®æ ‡ï¼š$name"
+    echo "Ğ¶ÔØÄ¿±ê£º$name"
     if [[ ! -d "$root" ]]; then
-        log_warn "ç›®æ ‡ç›®å½•ä¸å­˜åœ¨ï¼š$rootï¼Œæ— éœ€å¸è½½ã€‚"
+        log_warn "Ä¿±êÄ¿Â¼²»´æÔÚ£º$root£¬ÎŞĞèĞ¶ÔØ¡£"
         return 0
     fi
 
@@ -178,10 +178,10 @@ uninstall_target() {
 resolve_target
 validate_target
 
-echo "Claude ä¸ Codex å…¨å±€è§„åˆ™å¸è½½å™¨"
-echo "  ç›®æ ‡ï¼š$TARGET"
-[[ "$PURGE" == true ]] && echo "  æ¨¡å¼ï¼šå®Œå…¨åˆ é™¤ï¼ˆå«å¤‡ä»½ï¼‰"
-[[ "$DRY_RUN" == true ]] && echo "  æ¨¡å¼ï¼šå¹²è·‘"
+echo "Claude Óë Codex È«¾Ö¹æÔòĞ¶ÔØÆ÷"
+echo "  Ä¿±ê£º$TARGET"
+[[ "$PURGE" == true ]] && echo "  Ä£Ê½£ºÍêÈ«É¾³ı£¨º¬±¸·İ£©"
+[[ "$DRY_RUN" == true ]] && echo "  Ä£Ê½£º¸ÉÅÜ"
 
 if [[ "$TARGET" == all ]]; then
     names="claude codex"
@@ -192,16 +192,16 @@ fi
 failures=""
 for name in $names; do
     if ! uninstall_target "$name"; then
-        log_error "$name å¸è½½å¤±è´¥ã€‚"
+        log_error "$name Ğ¶ÔØÊ§°Ü¡£"
         failures="$failures $name"
     fi
 done
 
 echo
 if [[ -n "$failures" ]]; then
-    log_error "å¸è½½æœªå®Œå…¨æˆåŠŸï¼Œå¤±è´¥ç›®æ ‡ï¼š$failures"
+    log_error "Ğ¶ÔØÎ´ÍêÈ«³É¹¦£¬Ê§°ÜÄ¿±ê£º$failures"
     exit 1
 fi
 
-log_info "å¸è½½å®Œæˆã€‚"
-[[ "$DRY_RUN" == true ]] && log_warn "æœ¬æ¬¡ä¸ºå¹²è·‘æ¨¡å¼ï¼Œæœªå®é™…ä¿®æ”¹æ–‡ä»¶ã€‚"
+log_info "Ğ¶ÔØÍê³É¡£"
+[[ "$DRY_RUN" == true ]] && log_warn "±¾´ÎÎª¸ÉÅÜÄ£Ê½£¬Î´Êµ¼ÊĞŞ¸ÄÎÄ¼ş¡£"

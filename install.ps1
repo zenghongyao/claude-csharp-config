@@ -1,4 +1,4 @@
-# Claude ä¸ Codex å…¨å±€è§„åˆ™å®‰è£…å™¨ï¼ˆWindows PowerShellï¼‰
+# Claude Óë Codex È«¾Ö¹æÔò°²×°Æ÷£¨Windows PowerShell£©
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
@@ -18,15 +18,15 @@ function Write-Err2 { param([string]$Message) Write-Host "[ERROR] $Message" -For
 
 function Show-Help {
     @'
-ç”¨æ³•ï¼š.\install.ps1 [-Target Claude|Codex|All] [-WhatIf] [-Help]
+ÓÃ·¨£º.\install.ps1 [-Target Claude|Codex|All] [-WhatIf] [-Help]
 
-é€‰é¡¹ï¼š
-  -Target    å®‰è£…ç›®æ ‡ã€‚Claude å†™å…¥ %USERPROFILE%\.claudeï¼ŒCodex å†™å…¥ %USERPROFILE%\.codexã€‚
-  -WhatIf    é¢„è§ˆæ“ä½œï¼Œä¸ä¿®æ”¹æ–‡ä»¶ã€‚
-  -Help      æ˜¾ç¤ºæœ¬å¸®åŠ©ã€‚
+Ñ¡Ïî£º
+  -Target    °²×°Ä¿±ê¡£Claude Ğ´Èë %USERPROFILE%\.claude£¬Codex Ğ´Èë %USERPROFILE%\.codex¡£
+  -WhatIf    Ô¤ÀÀ²Ù×÷£¬²»ĞŞ¸ÄÎÄ¼ş¡£
+  -Help      ÏÔÊ¾±¾°ïÖú¡£
 
-æœªæŒ‡å®š -Target æ—¶ï¼Œäº¤äº’å¼ç»ˆç«¯ä¼šè¦æ±‚é€‰æ‹©ç›®æ ‡ï¼›éäº¤äº’ç¯å¢ƒå¿…é¡»æŒ‡å®š -Targetã€‚
-å·²æœ‰å…¥å£æ–‡ä»¶å’Œ rules ç›®å½•ä¼šå¤‡ä»½ä¸º *.bak.<æ—¶é—´æˆ³>ï¼Œæœ€å¤šä¿ç•™æœ€è¿‘ 3 ä»½ã€‚
+Î´Ö¸¶¨ -Target Ê±£¬½»»¥Ê½ÖÕ¶Ë»áÒªÇóÑ¡ÔñÄ¿±ê£»·Ç½»»¥»·¾³±ØĞëÖ¸¶¨ -Target¡£
+ÒÑÓĞÈë¿ÚÎÄ¼şºÍ rules Ä¿Â¼»á±¸·İÎª *.bak.<Ê±¼ä´Á>£¬×î¶à±£Áô×î½ü 3 ·İ¡£
 '@
 }
 
@@ -34,19 +34,19 @@ function Resolve-Target {
     param([string]$SelectedTarget)
     if ($SelectedTarget) { return $SelectedTarget }
     if ([Console]::IsInputRedirected) {
-        throw 'éäº¤äº’ç¯å¢ƒå¿…é¡»é€šè¿‡ -Target æŒ‡å®š Claudeã€Codex æˆ– Allã€‚'
+        throw '·Ç½»»¥»·¾³±ØĞëÍ¨¹ı -Target Ö¸¶¨ Claude¡¢Codex »ò All¡£'
     }
 
-    Write-Host 'è¯·é€‰æ‹©å®‰è£…ç›®æ ‡ï¼š'
+    Write-Host 'ÇëÑ¡Ôñ°²×°Ä¿±ê£º'
     Write-Host '  1. Claude'
     Write-Host '  2. Codex'
-    Write-Host '  3. Claude å’Œ Codex'
-    $choice = Read-Host 'è¾“å…¥ 1ã€2 æˆ– 3'
+    Write-Host '  3. Claude ºÍ Codex'
+    $choice = Read-Host 'ÊäÈë 1¡¢2 »ò 3'
     switch ($choice) {
         '1' { return 'Claude' }
         '2' { return 'Codex' }
         '3' { return 'All' }
-        default { throw 'æ— æ•ˆé€‰æ‹©ï¼Œè¯·é‡æ–°æ‰§è¡Œå¹¶è¾“å…¥ 1ã€2 æˆ– 3ã€‚' }
+        default { throw 'ÎŞĞ§Ñ¡Ôñ£¬ÇëÖØĞÂÖ´ĞĞ²¢ÊäÈë 1¡¢2 »ò 3¡£' }
     }
 }
 
@@ -75,7 +75,7 @@ function Get-TargetSpec {
                 Destination = 'AGENTS.md'
             }
         }
-        default { throw "æœªçŸ¥ç›®æ ‡ï¼š$Name" }
+        default { throw "Î´ÖªÄ¿±ê£º$Name" }
     }
 }
 
@@ -95,15 +95,15 @@ function Backup-IfExists {
         $backupPath = "$Path.bak.$Timestamp.$sequence"
         $sequence += 1
     }
-    Write-Warn2 "å·²å­˜åœ¨ï¼š$Pathï¼ˆå¤‡ä»½ä¸º $(Split-Path -Leaf $backupPath)ï¼‰"
-    if ($PSCmdlet.ShouldProcess($Path, "å¤‡ä»½åˆ° $backupPath")) {
+    Write-Warn2 "ÒÑ´æÔÚ£º$Path£¨±¸·İÎª $(Split-Path -Leaf $backupPath)£©"
+    if ($PSCmdlet.ShouldProcess($Path, "±¸·İµ½ $backupPath")) {
         Move-Item -LiteralPath $Path -Destination $backupPath -Force
         $oldBackups = Get-ChildItem -Path "$Path.bak.*" -ErrorAction SilentlyContinue |
             Sort-Object Name -Descending |
             Select-Object -Skip $MaxBackups
         foreach ($backup in $oldBackups) {
             Remove-Item -LiteralPath $backup.FullName -Recurse -Force
-            Write-Info "æ¸…ç†æ—§å¤‡ä»½ï¼š$($backup.Name)"
+            Write-Info "ÇåÀí¾É±¸·İ£º$($backup.Name)"
         }
     }
 }
@@ -113,12 +113,12 @@ function Install-File {
     param([string]$Source, [string]$Destination)
 
     $destinationDir = Split-Path -Parent $Destination
-    if ($PSCmdlet.ShouldProcess($destinationDir, 'åˆ›å»ºç›®å½•')) {
+    if ($PSCmdlet.ShouldProcess($destinationDir, '´´½¨Ä¿Â¼')) {
         New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
     }
     Backup-IfExists -Path $Destination
-    Write-Info "å®‰è£…ï¼š$Destination"
-    if ($PSCmdlet.ShouldProcess($Source, "å¤åˆ¶åˆ° $Destination")) {
+    Write-Info "°²×°£º$Destination"
+    if ($PSCmdlet.ShouldProcess($Source, "¸´ÖÆµ½ $Destination")) {
         Copy-Item -LiteralPath $Source -Destination $Destination -Force
     }
 }
@@ -128,12 +128,12 @@ function Install-Directory {
     param([string]$Source, [string]$Destination)
 
     $destinationDir = Split-Path -Parent $Destination
-    if ($PSCmdlet.ShouldProcess($destinationDir, 'åˆ›å»ºç›®å½•')) {
+    if ($PSCmdlet.ShouldProcess($destinationDir, '´´½¨Ä¿Â¼')) {
         New-Item -ItemType Directory -Force -Path $destinationDir | Out-Null
     }
     Backup-IfExists -Path $Destination
-    Write-Info "å®‰è£…ç›®å½•ï¼š$Destination"
-    if ($PSCmdlet.ShouldProcess($Source, "å¤åˆ¶åˆ° $Destination")) {
+    Write-Info "°²×°Ä¿Â¼£º$Destination"
+    if ($PSCmdlet.ShouldProcess($Source, "¸´ÖÆµ½ $Destination")) {
         if (Test-Path -LiteralPath $Destination) {
             Remove-Item -LiteralPath $Destination -Recurse -Force
         }
@@ -148,16 +148,16 @@ function Install-Target {
     $sourceRules = Join-Path $ScriptDir 'rules'
 
     if (-not (Test-Path -LiteralPath $sourceEntry -PathType Leaf)) {
-        throw "æºæ–‡ä»¶ä¸å­˜åœ¨ï¼š$sourceEntry"
+        throw "Ô´ÎÄ¼ş²»´æÔÚ£º$sourceEntry"
     }
     if (-not (Test-Path -LiteralPath $sourceRules -PathType Container)) {
-        throw "æºç›®å½•ä¸å­˜åœ¨ï¼š$sourceRules"
+        throw "Ô´Ä¿Â¼²»´æÔÚ£º$sourceRules"
     }
 
     Write-Host
-    Write-Host "å®‰è£…ç›®æ ‡ï¼š$($spec.Name)"
-    Write-Host "  è§„åˆ™å…¥å£ï¼š$(Join-Path $spec.Root $spec.Destination)"
-    Write-Host "  è¯¦ç»†è§„åˆ™ï¼š$(Join-Path $spec.Root 'rules')"
+    Write-Host "°²×°Ä¿±ê£º$($spec.Name)"
+    Write-Host "  ¹æÔòÈë¿Ú£º$(Join-Path $spec.Root $spec.Destination)"
+    Write-Host "  ÏêÏ¸¹æÔò£º$(Join-Path $spec.Root 'rules')"
     Install-File -Source $sourceEntry -Destination (Join-Path $spec.Root $spec.Destination)
     Install-Directory -Source $sourceRules -Destination (Join-Path $spec.Root 'rules')
 }
@@ -174,28 +174,28 @@ try {
     exit 1
 }
 
-Write-Host 'Claude ä¸ Codex å…¨å±€è§„åˆ™å®‰è£…å™¨'
-Write-Host "  æºç›®å½•ï¼š$ScriptDir"
-Write-Host "  ç›®æ ‡ï¼š$resolvedTarget"
-if ($WhatIfPreference) { Write-Host '  æ¨¡å¼ï¼šå¹²è·‘ï¼ˆ-WhatIfï¼‰' }
+Write-Host 'Claude Óë Codex È«¾Ö¹æÔò°²×°Æ÷'
+Write-Host "  Ô´Ä¿Â¼£º$ScriptDir"
+Write-Host "  Ä¿±ê£º$resolvedTarget"
+if ($WhatIfPreference) { Write-Host '  Ä£Ê½£º¸ÉÅÜ£¨-WhatIf£©' }
 
 $failures = @()
 foreach ($name in Get-TargetNames -SelectedTarget $resolvedTarget) {
     try {
         Install-Target -Name $name
     } catch {
-        Write-Err2 "$name å®‰è£…å¤±è´¥ï¼š$($_.Exception.Message)"
+        Write-Err2 "$name °²×°Ê§°Ü£º$($_.Exception.Message)"
         $failures += $name
     }
 }
 
 Write-Host
 if ($failures.Count -gt 0) {
-    Write-Err2 "å®‰è£…æœªå®Œå…¨æˆåŠŸï¼Œå¤±è´¥ç›®æ ‡ï¼š$($failures -join 'ã€')"
+    Write-Err2 "°²×°Î´ÍêÈ«³É¹¦£¬Ê§°ÜÄ¿±ê£º$($failures -join '¡¢')"
     exit 1
 }
 
-Write-Info 'å®‰è£…å®Œæˆã€‚é‡å¯æ‰€é€‰å·¥å…·åå³å¯ç”Ÿæ•ˆã€‚'
+Write-Info '°²×°Íê³É¡£ÖØÆôËùÑ¡¹¤¾ßºó¼´¿ÉÉúĞ§¡£'
 if ($WhatIfPreference) {
-    Write-Warn2 'æœ¬æ¬¡ä¸ºå¹²è·‘æ¨¡å¼ï¼Œæœªå®é™…ä¿®æ”¹æ–‡ä»¶ã€‚'
+    Write-Warn2 '±¾´ÎÎª¸ÉÅÜÄ£Ê½£¬Î´Êµ¼ÊĞŞ¸ÄÎÄ¼ş¡£'
 }

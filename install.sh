@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Claude ä¸ Codex å…¨å±€è§„åˆ™å®‰è£…å™¨ï¼ˆmacOS / Linuxï¼‰
+# Claude Óë Codex È«¾Ö¹æÔò°²×°Æ÷£¨macOS / Linux£©
 
 set -euo pipefail
 
@@ -24,22 +24,22 @@ log_error() { printf '%b[ERROR]%b %s\n' "$C_RED" "$C_RESET" "$1" >&2; }
 
 show_help() {
     cat <<EOF
-ç”¨æ³•ï¼š./install.sh [--target claude|codex|all] [--dry-run]
+ÓÃ·¨£º./install.sh [--target claude|codex|all] [--dry-run]
 
-é€‰é¡¹ï¼š
-  --target    å®‰è£…ç›®æ ‡ã€‚claude å†™å…¥ ~/.claudeï¼Œcodex å†™å…¥ ~/.codexã€‚
-  --dry-run   é¢„è§ˆæ“ä½œï¼Œä¸ä¿®æ”¹æ–‡ä»¶ã€‚
-  -h, --help  æ˜¾ç¤ºæœ¬å¸®åŠ©ã€‚
+Ñ¡Ïî£º
+  --target    °²×°Ä¿±ê¡£claude Ğ´Èë ~/.claude£¬codex Ğ´Èë ~/.codex¡£
+  --dry-run   Ô¤ÀÀ²Ù×÷£¬²»ĞŞ¸ÄÎÄ¼ş¡£
+  -h, --help  ÏÔÊ¾±¾°ïÖú¡£
 
-æœªæŒ‡å®š --target æ—¶ï¼Œäº¤äº’å¼ç»ˆç«¯ä¼šè¦æ±‚é€‰æ‹©ç›®æ ‡ï¼›éäº¤äº’ç¯å¢ƒå¿…é¡»æŒ‡å®š --targetã€‚
-å·²æœ‰å…¥å£æ–‡ä»¶å’Œ rules ç›®å½•ä¼šå¤‡ä»½ä¸º *.bak.<æ—¶é—´æˆ³>ï¼Œæœ€å¤šä¿ç•™æœ€è¿‘ 3 ä»½ã€‚
+Î´Ö¸¶¨ --target Ê±£¬½»»¥Ê½ÖÕ¶Ë»áÒªÇóÑ¡ÔñÄ¿±ê£»·Ç½»»¥»·¾³±ØĞëÖ¸¶¨ --target¡£
+ÒÑÓĞÈë¿ÚÎÄ¼şºÍ rules Ä¿Â¼»á±¸·İÎª *.bak.<Ê±¼ä´Á>£¬×î¶à±£Áô×î½ü 3 ·İ¡£
 EOF
 }
 
 while (($# > 0)); do
     case "$1" in
         --target)
-            [[ $# -ge 2 ]] || { log_error "--target ç¼ºå°‘å‚æ•°"; exit 1; }
+            [[ $# -ge 2 ]] || { log_error "--target È±ÉÙ²ÎÊı"; exit 1; }
             TARGET="$2"
             shift 2
             ;;
@@ -52,7 +52,7 @@ while (($# > 0)); do
             exit 0
             ;;
         *)
-            log_error "æœªçŸ¥å‚æ•°ï¼š$1"
+            log_error "Î´Öª²ÎÊı£º$1"
             show_help
             exit 1
             ;;
@@ -64,26 +64,26 @@ resolve_target() {
         return
     fi
     if [[ ! -t 0 ]]; then
-        log_error "éäº¤äº’ç¯å¢ƒå¿…é¡»é€šè¿‡ --target æŒ‡å®š claudeã€codex æˆ– allã€‚"
+        log_error "·Ç½»»¥»·¾³±ØĞëÍ¨¹ı --target Ö¸¶¨ claude¡¢codex »ò all¡£"
         exit 1
     fi
-    echo "è¯·é€‰æ‹©å®‰è£…ç›®æ ‡ï¼š"
+    echo "ÇëÑ¡Ôñ°²×°Ä¿±ê£º"
     echo "  1. Claude"
     echo "  2. Codex"
-    echo "  3. Claude å’Œ Codex"
-    read -r -p "è¾“å…¥ 1ã€2 æˆ– 3: " choice
+    echo "  3. Claude ºÍ Codex"
+    read -r -p "ÊäÈë 1¡¢2 »ò 3: " choice
     case "$choice" in
         1) TARGET="claude" ;;
         2) TARGET="codex" ;;
         3) TARGET="all" ;;
-        *) log_error "æ— æ•ˆé€‰æ‹©ï¼Œè¯·é‡æ–°æ‰§è¡Œå¹¶è¾“å…¥ 1ã€2 æˆ– 3ã€‚"; exit 1 ;;
+        *) log_error "ÎŞĞ§Ñ¡Ôñ£¬ÇëÖØĞÂÖ´ĞĞ²¢ÊäÈë 1¡¢2 »ò 3¡£"; exit 1 ;;
     esac
 }
 
 validate_target() {
     case "$TARGET" in
         claude|codex|all) ;;
-        *) log_error "--target åªèƒ½æ˜¯ claudeã€codex æˆ– allã€‚"; exit 1 ;;
+        *) log_error "--target Ö»ÄÜÊÇ claude¡¢codex »ò all¡£"; exit 1 ;;
     esac
 }
 
@@ -112,7 +112,7 @@ backup_if_exists() {
         backup_path="$path.bak.$TIMESTAMP.$sequence"
         sequence=$((sequence + 1))
     done
-    log_warn "å·²å­˜åœ¨ï¼š$pathï¼ˆå¤‡ä»½ä¸º $(basename "$backup_path")ï¼‰"
+    log_warn "ÒÑ´æÔÚ£º$path£¨±¸·İÎª $(basename "$backup_path")£©"
     run_cmd mv "$path" "$backup_path" || return 1
     if [[ "$DRY_RUN" == false ]]; then
         local backup_count=0
@@ -121,7 +121,7 @@ backup_if_exists() {
             backup_count=$((backup_count + 1))
             if ((backup_count > MAX_BACKUPS)); then
                 rm -rf "$backup"
-                log_info "æ¸…ç†æ—§å¤‡ä»½ï¼š$(basename "$backup")"
+                log_info "ÇåÀí¾É±¸·İ£º$(basename "$backup")"
             fi
         done < <(find "$(dirname "$path")" -maxdepth 1 -name "$(basename "$path").bak.*" -print | sort -r)
     fi
@@ -132,7 +132,7 @@ install_file() {
     local destination="$2"
     run_cmd mkdir -p "$(dirname "$destination")" || return 1
     backup_if_exists "$destination" || return 1
-    log_info "å®‰è£…ï¼š$destination"
+    log_info "°²×°£º$destination"
     run_cmd cp "$source" "$destination" || return 1
 }
 
@@ -141,7 +141,7 @@ install_directory() {
     local destination="$2"
     run_cmd mkdir -p "$(dirname "$destination")" || return 1
     backup_if_exists "$destination" || return 1
-    log_info "å®‰è£…ç›®å½•ï¼š$destination"
+    log_info "°²×°Ä¿Â¼£º$destination"
     if [[ -e "$destination" ]]; then
         run_cmd rm -rf "$destination" || return 1
     fi
@@ -154,17 +154,17 @@ install_target() {
     case "$name" in
         claude) root="$HOME/.claude"; entry="CLAUDE.md" ;;
         codex) root="$HOME/.codex"; entry="AGENTS.md" ;;
-        *) log_error "æœªçŸ¥ç›®æ ‡ï¼š$name"; return 1 ;;
+        *) log_error "Î´ÖªÄ¿±ê£º$name"; return 1 ;;
     esac
 
     local source_entry="$SCRIPT_DIR/$entry"
-    [[ -f "$source_entry" ]] || { log_error "æºæ–‡ä»¶ä¸å­˜åœ¨ï¼š$source_entry"; return 1; }
-    [[ -d "$SCRIPT_DIR/rules" ]] || { log_error "æºç›®å½•ä¸å­˜åœ¨ï¼š$SCRIPT_DIR/rules"; return 1; }
+    [[ -f "$source_entry" ]] || { log_error "Ô´ÎÄ¼ş²»´æÔÚ£º$source_entry"; return 1; }
+    [[ -d "$SCRIPT_DIR/rules" ]] || { log_error "Ô´Ä¿Â¼²»´æÔÚ£º$SCRIPT_DIR/rules"; return 1; }
 
     echo
-    echo "å®‰è£…ç›®æ ‡ï¼š$name"
-    echo "  è§„åˆ™å…¥å£ï¼š$root/$entry"
-    echo "  è¯¦ç»†è§„åˆ™ï¼š$root/rules"
+    echo "°²×°Ä¿±ê£º$name"
+    echo "  ¹æÔòÈë¿Ú£º$root/$entry"
+    echo "  ÏêÏ¸¹æÔò£º$root/rules"
     install_file "$source_entry" "$root/$entry" || return 1
     install_directory "$SCRIPT_DIR/rules" "$root/rules" || return 1
 }
@@ -172,10 +172,10 @@ install_target() {
 resolve_target
 validate_target
 
-echo "Claude ä¸ Codex å…¨å±€è§„åˆ™å®‰è£…å™¨"
-echo "  æºç›®å½•ï¼š$SCRIPT_DIR"
-echo "  ç›®æ ‡ï¼š$TARGET"
-[[ "$DRY_RUN" == true ]] && echo "  æ¨¡å¼ï¼šå¹²è·‘"
+echo "Claude Óë Codex È«¾Ö¹æÔò°²×°Æ÷"
+echo "  Ô´Ä¿Â¼£º$SCRIPT_DIR"
+echo "  Ä¿±ê£º$TARGET"
+[[ "$DRY_RUN" == true ]] && echo "  Ä£Ê½£º¸ÉÅÜ"
 
 if [[ "$TARGET" == all ]]; then
     names="claude codex"
@@ -186,16 +186,16 @@ fi
 failures=""
 for name in $names; do
     if ! install_target "$name"; then
-        log_error "$name å®‰è£…å¤±è´¥ã€‚"
+        log_error "$name °²×°Ê§°Ü¡£"
         failures="$failures $name"
     fi
 done
 
 echo
 if [[ -n "$failures" ]]; then
-    log_error "å®‰è£…æœªå®Œå…¨æˆåŠŸï¼Œå¤±è´¥ç›®æ ‡ï¼š$failures"
+    log_error "°²×°Î´ÍêÈ«³É¹¦£¬Ê§°ÜÄ¿±ê£º$failures"
     exit 1
 fi
 
-log_info "å®‰è£…å®Œæˆã€‚é‡å¯æ‰€é€‰å·¥å…·åå³å¯ç”Ÿæ•ˆã€‚"
-[[ "$DRY_RUN" == true ]] && log_warn "æœ¬æ¬¡ä¸ºå¹²è·‘æ¨¡å¼ï¼Œæœªå®é™…ä¿®æ”¹æ–‡ä»¶ã€‚"
+log_info "°²×°Íê³É¡£ÖØÆôËùÑ¡¹¤¾ßºó¼´¿ÉÉúĞ§¡£"
+[[ "$DRY_RUN" == true ]] && log_warn "±¾´ÎÎª¸ÉÅÜÄ£Ê½£¬Î´Êµ¼ÊĞŞ¸ÄÎÄ¼ş¡£"
